@@ -22,6 +22,7 @@ class LRUCache {
         LRUCache(int size);
         ~LRUCache();
 
+        int getNode(const int& key);
 };
 
 
