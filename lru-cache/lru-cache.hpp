@@ -5,18 +5,18 @@
 #include <unordered_map>
 
 class LRUCache {
-    struct node {
+    struct Node {
         int key;
         int data;
-        struct node *prev;
-        struct node *next;
+        struct Node *prev;
+        struct Node *next;
 
-        node(int k, int d) : key(k), data(d), prev(nullptr), next(nullptr) {}
+        Node(int k, int d) : key(k), data(d), prev(nullptr), next(nullptr) {}
     };
 
-    std::unordered_map<int, struct node> cache;
-    node *head;
-    node *tail;
+    std::unordered_map<int, struct Node> cache;
+    Node *head;
+    Node *tail;
     int size;
 
     public:
