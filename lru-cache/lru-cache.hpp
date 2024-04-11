@@ -15,12 +15,13 @@ class LRUCache {
     };
 
     std::unordered_map<int, struct node> cache;
-    node head;
-    node tail;
+    node *head;
+    node *tail;
     int size;
 
     public:
-
+        LRUCache();
+        ~LRUCache();
 
     private:
 
