@@ -23,6 +23,7 @@ class LRUCache {
         ~LRUCache();
 
         int getNode(const int& key);
+        void putNode(const int& key, const int& data);
 };
 
 
