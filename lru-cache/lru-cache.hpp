@@ -18,6 +18,10 @@ class LRUCache {
         Node* tail;
         int size;
 
+        void removeNode(Node* node);
+        void moveToHead(Node* node);
+        void removeTail();
+
     public:
         LRUCache(int size);
         ~LRUCache();
