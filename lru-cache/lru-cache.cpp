@@ -67,6 +67,7 @@ void LRUCache<K, D>::removeNode(Node* node) {
     // update node->next's and node->prev's links
     node->prev->next = node->next;
     node->next->prev = node->prev;
+    delete node;
 }
 
 template<typename K, typename D>
