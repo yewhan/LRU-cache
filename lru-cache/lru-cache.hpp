@@ -4,16 +4,17 @@
 #include <iostream>
 #include <unordered_map>
 
+template<typename K, typename D>
 class LRUCache {
     private:
         struct Node {
-            int key;
-            int data;
+            K key;
+            D data;
             Node* prev;
             Node* next;
         };
 
-        std::unordered_map<int, Node*> cacheMap;
+        std::unordered_map<K, Node*> cacheMap;
         Node* head;
         Node* tail;
         int size;
@@ -26,8 +27,8 @@ class LRUCache {
         LRUCache(int size);
         ~LRUCache();
 
-        int getNode(const int& key);
-        void putNode(const int& key, const int& data);
+        D getNode(const K& key);
+        void putNode(const K& key, const D& data);
 };
 
 

@@ -1,6 +1,7 @@
 #include "lru-cache.hpp"
 
-LRUCache::LRUCache(int size) : size(size) {
+template<typename K, typename D>
+LRUCache<K, D>::LRUCache(int size) : size(size) {
     // create head and tail nodes
     head = new Node();
     tail = new Node();
@@ -10,7 +11,8 @@ LRUCache::LRUCache(int size) : size(size) {
     tail->prev = head;
 }
 
-LRUCache::~LRUCache() {
+template<typename K, typename D>
+LRUCache<K, D>::~LRUCache() {
     // delete all nodes
     while (head != nullptr) { // tail->next = nullptr
         Node* tmp = head;
@@ -19,7 +21,8 @@ LRUCache::~LRUCache() {
     }
 }
 
-int LRUCache::getNode(const int &key) { // pass by ref
+template<typename K, typename D>
+D LRUCache<K, D>::getNode(const K& key) { // pass by ref
     // check if key exists in hashmap
     if (cacheMap.find(key) != cacheMap.end()) {
         Node* curr = cacheMap[key];
@@ -30,7 +33,8 @@ int LRUCache::getNode(const int &key) { // pass by ref
     }
 }
 
-void LRUCache::putNode(const int &key, const int &newData) {
+template<typename K, typename D>
+void LRUCache<K, D>::putNode(const K& key, const D& newData) {
     // check if key exists in hashmap
     if (cacheMap.find(key) != cacheMap.end()) {
         // node exists so we update data
@@ -56,13 +60,15 @@ void LRUCache::putNode(const int &key, const int &newData) {
     }
 }
 
-void LRUCache::removeNode(Node* node) {
+template<typename K, typename D>
+void LRUCache<K, D>::removeNode(Node* node) {
     // update node->next's and node->prev's links
     node->prev->next = node->next;
     node->next->prev = node->prev;
 }
 
-void LRUCache::moveToHead(Node* node) {
+template<typename K, typename D>
+void LRUCache<K, D>::moveToHead(Node* node) {
     removeNode(node);
 
     // update current node's links
@@ -74,7 +80,8 @@ void LRUCache::moveToHead(Node* node) {
     head->next = node;
 }
 
-void LRUCache::removeTail() {
+template<typename K, typename D>
+void LRUCache<K, D>::removeTail() {
     // remove tail->prev entry from cacheMap
     cacheMap.erase(tail->prev->key);
     removeNode(tail->prev);
