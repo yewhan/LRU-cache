@@ -1,11 +1,7 @@
 #include "lru-cache.hpp"
 
 template<typename K, typename D>
-LRUCache<K, D>::LRUCache(int size) : size(size) {
-    // create head and tail nodes
-    head = new Node();
-    tail = new Node();
-
+LRUCache<K, D>::LRUCache(int size) : size(size), head(new Node()), tail(new Node()) {
     // initialise head->next and tail->prev to each other
     head->next = tail;
     tail->prev = head;
@@ -22,7 +18,7 @@ LRUCache<K, D>::~LRUCache() {
 }
 
 template<typename K, typename D>
-std::pair<D, bool> LRUCache<K, D>::getNode(const K& key) { // pass by ref
+std::pair<D, bool> LRUCache<K, D>::getNode(const K& key) const { // pass by ref
     // check if key exists in hashmap
     if (cacheMap.find(key) != cacheMap.end()) {
         Node* curr = cacheMap[key];

@@ -19,6 +19,7 @@ class LRUCache {
         Node* tail;
         int size;
 
+        // inline these 3 funcs?
         void removeNode(Node* node);
         void moveToHead(Node* node);
         void removeTail();
@@ -27,10 +28,11 @@ class LRUCache {
         LRUCache(int size);
         ~LRUCache();
 
-        std::pair<D, bool> getNode(const K& key);
+        // inline getNode?
+        std::pair<D, bool> getNode(const K& key) const;
         void putNode(const K& key, const D& data);
 };
 
-
+#include "lru-cache.cpp"
 
 #endif
