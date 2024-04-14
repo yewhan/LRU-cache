@@ -27,7 +27,7 @@ class LRUCache {
         LRUCache(int size);
         ~LRUCache();
 
-        D getNode(const K& key);
+        std::pair<D, bool> getNode(const K& key);
         void putNode(const K& key, const D& data);
 };
 

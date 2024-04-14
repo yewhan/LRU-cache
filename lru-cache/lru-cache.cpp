@@ -22,15 +22,17 @@ LRUCache<K, D>::~LRUCache() {
 }
 
 template<typename K, typename D>
-D LRUCache<K, D>::getNode(const K& key) { // pass by ref
+std::pair<D, bool> LRUCache<K, D>::getNode(const K& key) { // pass by ref
     // check if key exists in hashmap
     if (cacheMap.find(key) != cacheMap.end()) {
         Node* curr = cacheMap[key];
 
         // move curr to front of cache
         moveToHead(curr);
-        return curr->data;
+        return {curr->data, true};
     }
+    // return default value if key doesn't exist
+    return {D(), false};
 }
 
 template<typename K, typename D>
