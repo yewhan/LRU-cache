@@ -24,17 +24,9 @@ int LRUCache::getNode(const int &key) { // pass by ref
     if (cacheMap.find(key) != cacheMap.end()) {
         Node* curr = cacheMap[key];
 
-        // update curr->next's and curr->prev's links
-        curr->prev->next = curr->next;
-        curr->next->prev = curr->prev;
-
-        // update current node's links
-        curr->next = head->next;
-        curr->prev = head;
-
-        // update head's and head->next's links 
-        head->next->prev = curr;
-        head->next = curr;
+        // move curr to front of cache
+        moveToHead(curr);
+        return curr->data;
     }
 }
 
@@ -46,17 +38,7 @@ void LRUCache::putNode(const int &key, const int &newData) {
         curr->data = newData;
 
         // move node to front
-        // update curr->next's and curr->prev's links
-        curr->prev->next = curr->next;
-        curr->next->prev = curr->prev;
-
-        // update current node's links
-        curr->next = head->next;
-        curr->prev = head;
-
-        // update head's and head->next's links 
-        head->next->prev = curr;
-        head->next = curr;
+        moveToHead(curr);
     }
     else {
         // node doesn't exist so we create new node at front
@@ -65,27 +47,35 @@ void LRUCache::putNode(const int &key, const int &newData) {
         newNode->data = newData;
         cacheMap[key] = newNode;
         
-        // move newNode to front
-        // update curr->next's and curr->prev's links
-        newNode->prev->next = newNode->next;
-        newNode->next->prev = newNode->prev;
-
-        // update current node's links
-        newNode->next = head->next;
-        newNode->prev = head;
-
-        // update head's and head->next's links 
-        head->next->prev = newNode;
-        head->next = newNode;
+        moveToHead(newNode);
 
         // check if cache has reached capacity
         if (cacheMap.size() > size) {
-            // remove LEAST recently used node
-            cacheMap.erase(tail->prev->key);
-            
-            // remove links to tail->prev
-            tail->prev->prev->next = tail->prev->next;
-            tail->prev->next->prev = tail->prev->prev;
+            removeTail();
         }
     }
+}
+
+void LRUCache::removeNode(Node* node) {
+    // update node->next's and node->prev's links
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+}
+
+void LRUCache::moveToHead(Node* node) {
+    removeNode(node);
+
+    // update current node's links
+    node->next = head->next;
+    node->prev = head;
+
+    // update head's and head->next's links 
+    head->next->prev = node;
+    head->next = node;
+}
+
+void LRUCache::removeTail() {
+    // remove tail->prev entry from cacheMap
+    cacheMap.erase(tail->prev->key);
+    removeNode(tail->prev);
 }
